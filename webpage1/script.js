@@ -1,5 +1,5 @@
 (function ($) {
-    apiUrl = "https://9h1wag0ywe.execute-api.us-east-1.amazonaws.com/prod/"
+    apiUrl = "https://<YOUR-API-ID>.execute-api.us-east-1.amazonaws.com/prod/"
     TableName = 'ccbda-lambda-first';
 
     $.ajax({
