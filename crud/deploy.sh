@@ -12,7 +12,14 @@ ENVIRONMENT=$(IFS=, ; echo "${ENVIRONMENT_VARIABLES[*]}")
 
 echo "ENVIRONMENT: ${ENVIRONMENT}"
 
-
+aws dynamodb create-table \
+  --table-name ${TABLE} \
+  --attribute-definitions \
+        AttributeName=thingID,AttributeType=S \
+  --key-schema \
+        AttributeName=thingID,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --region ${REGION}
 
 pushd lambda
 zip lambda_crud.zip lambda_crud.py requirements.txt
@@ -29,7 +36,7 @@ echo "LAMBDA_ARN: ${LAMBDA_ARN}"
 popd
 
 STATEMENT_ID=`uuidgen`
-echo "STATEMENT_ID ${}"
+echo "STATEMENT_ID: ${STATEMENT_ID}"
 
 aws lambda add-permission \
     --function-name ${LAMBDA} \
@@ -39,7 +46,7 @@ aws lambda add-permission \
 
 API_ID=`aws apigatewayv2 create-api \
   --name "CrudHttpAPI" \
-  --protocol-type HTTP
+  --protocol-type HTTP \
    | jq -r '.ApiId'`
 
 echo "API_ID ${API_ID}"
@@ -66,13 +73,16 @@ done
 STAGE="production"
 aws apigatewayv2 create-stage \
      --api-id ${API_ID} \
-     --stage-name ${STAGE}
+     --stage-name ${STAGE} \
+     --no-auto-deploy
 
 aws apigatewayv2 create-deployment \
     --api-id ${API_ID} \
     --stage-name ${STAGE}
 
 
-URL="https://${API_ID}.execute-api.${REGION}.amazonaws.com/${STAGE}/?TableName=${TABLE}
+URL="https://${API_ID}.execute-api.${REGION}.amazonaws.com/${STAGE}/?TableName=${TABLE}"
 echo "URL: ${URL}"
-curl "$URL"
+curl $URL
+
+echo -e "apiUrl = '${URL}';\nTableName = '${TABLE}';" > variables.js; cat variables.js
