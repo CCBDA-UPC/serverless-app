@@ -1,0 +1,9 @@
+[
+  {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "RouteId": "yf9r350",
+    "RouteKey": "$connect",
+    "Target": "integrations/egopeo5"
+  }
+]
