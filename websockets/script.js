@@ -1,3 +1,4 @@
+import url from './variables';
 var apiKey;
 var being_tracked = [];
 var map;
