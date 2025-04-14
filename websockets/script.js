@@ -1,5 +1,6 @@
-import url from './variables';
+import {apiGwURL} from './variables';
 
+var url = apiGwURL();
 var apiKey;
 var being_tracked = [];
 var map;
