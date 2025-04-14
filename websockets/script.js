@@ -1,6 +1,5 @@
 import apiGwURL from './variables.js';
 
-var url = apiGwURL();
 var apiKey;
 var being_tracked = [];
 var map;
@@ -23,7 +22,7 @@ function popupText(aircraft) {
 
 function WrapperWS() {
     if ("WebSocket" in window) {
-        var ws = new WebSocket(url);
+        var ws = new WebSocket(apiGwURL());
 
         ws.onopen = function (evt) {
             ws.send("hello!")
