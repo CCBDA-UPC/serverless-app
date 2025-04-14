@@ -1,4 +1,10 @@
-import url from './variables';
+var scriptjs = require('scriptjs');
+
+scriptjs('variables.js', function() {
+    L.mapbox.accessToken = 'MyToken';
+});
+
+
 var apiKey;
 var being_tracked = [];
 var map;
