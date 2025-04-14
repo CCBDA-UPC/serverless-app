@@ -1,4 +1,4 @@
-import {apiGwURL} from './variables.js';
+import apiGwURL from './variables.js';
 
 var url = apiGwURL();
 var apiKey;
