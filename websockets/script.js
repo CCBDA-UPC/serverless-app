@@ -17,8 +17,6 @@ var landedIcon = L.icon({
     popupAnchor: [0, -30],
 });
 
-new WrapperWS();
-
 function popupText(aircraft) {
     return `<b>${aircraft.number}</b>&nbsp;${aircraft.origin}&rarr;${aircraft.destination}`
 }
