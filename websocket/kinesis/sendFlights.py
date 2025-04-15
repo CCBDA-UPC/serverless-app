@@ -36,8 +36,9 @@ for i in range(1, 1000):
             "origin": f.origin_airport_iata,
             "destination": f.destination_airport_iata,
             "number": f.number,
-            "flying": f.on_ground != 0,
-            "airline": "BAW"
+            "flying": f.on_ground == 1,
+            "airline": f.airline_iata,
+            "altitude": f.altitude
         }
     encoded_data = json.dumps(list).encode('utf-8')
 
