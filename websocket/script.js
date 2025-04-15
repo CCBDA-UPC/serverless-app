@@ -66,7 +66,7 @@ function WrapperWS(url) {
                             if (layer.latitude != aircraft.latitude || layer.longitude != aircraft.longitude) {
                                 layer.setLatLng([aircraft.latitude, aircraft.longitude])
                                 var icon;
-                                if (aircraft.on_ground) icon = landedIcon
+                                if (aircraft.flying) icon = flyingIcon;
                                 else icon = flyingIcon;
                                 layer.setIcon(icon)
                             }
@@ -79,7 +79,7 @@ function WrapperWS(url) {
                                 aircraftid: id,
                                 flyingIcon: flyingIcon
                             }).addTo(map).bindPopup(popupText(aircraft));
-                            console.log(id, 'new', aircraft.on_ground);
+                            console.log(id, 'new', aircraft.flying);
                         }
                     }
                     break;
