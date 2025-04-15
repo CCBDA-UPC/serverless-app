@@ -65,10 +65,7 @@ function WrapperWS(url) {
                             const aircraft = event.aircrafts[layer.options.aircraftid]
                             if (layer.position != aircraft.position) {
                                 layer.setLatLng(aircraft.position)
-                                var icon;
-                                if (aircraft.flying) icon = flyingIcon;
-                                else icon = landedIcon;
-                                layer.setIcon(icon)
+                                layer.setIcon(aircraft.flying ? flyingIcon : landedIcon)
                             }
                         }
                     });
@@ -77,7 +74,7 @@ function WrapperWS(url) {
                             L.marker(aircraft.position, {
                                 alt: id,
                                 aircraftid: id,
-                                flyingIcon: landedIcon
+                                icon: aircraft.flying ? flyingIcon : landedIcon
                             }).addTo(map).bindPopup(popupText(aircraft));
                             console.log(id, 'new', aircraft.flying);
                         }
