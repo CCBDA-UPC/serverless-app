@@ -1,28 +1,30 @@
-import apiGwURL from './variables.js';
-
-var apiKey;
-var being_tracked = [];
-var map;
-var flyingIcon = L.icon({
-    iconUrl: 'img/green.svg',
-    iconSize: [30, 30],
-    iconAnchor: [15, 30],
-    popupAnchor: [0, -30],
-});
-var landedIcon = L.icon({
-    iconUrl: 'img/orange.svg',
-    iconSize: [30, 30],
-    iconAnchor: [15, 30],
-    popupAnchor: [0, -30],
-});
+async function configure() {
+    const request = new Request("./variables.json");
+    const response = await fetch(request);
+    const variables = await response.json();
+    new WrapperWS(variables.url);
+}
 
 function popupText(aircraft) {
     return `<b>${aircraft.number}</b>&nbsp;${aircraft.origin}&rarr;${aircraft.destination}`
 }
 
-function WrapperWS() {
+function WrapperWS(url) {
+    var flyingIcon = L.icon({
+        iconUrl: 'img/green.svg',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+        popupAnchor: [0, -30],
+    });
+    var landedIcon = L.icon({
+        iconUrl: 'img/orange.svg',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+        popupAnchor: [0, -30],
+    });
+
     if ("WebSocket" in window) {
-        var ws = new WebSocket(apiGwURL());
+        var ws = new WebSocket(url);
 
         ws.onopen = function (evt) {
             ws.send("hello!")
@@ -37,8 +39,8 @@ function WrapperWS() {
             console.log("Error: " + evt.data);
         };
 
-        ws.onmessage = ({data}) => {
-            const event = JSON.parse(data);
+        ws.onmessage = function (evt) {
+            var event = JSON.parse(evt.data);
             console.log('message received', event);
             if (!event.hasOwnProperty("type")) {
                 console.log('Error: Incorrect event structure');

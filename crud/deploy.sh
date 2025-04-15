@@ -85,4 +85,4 @@ URL="https://${API_ID}.execute-api.${REGION}.amazonaws.com/${STAGE}/?TableName=$
 echo "URL: ${URL}"
 curl $URL
 
-echo -e "var apiUrl = '${URL}';\nvar TableName = '${TABLE}';" > variables.js; cat variables.js
+echo -e "var apiUrl = '${URL}';\nvar TableName = '${TABLE}';" > variables.json; cat variables.json
