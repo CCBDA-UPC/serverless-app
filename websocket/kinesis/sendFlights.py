@@ -17,7 +17,6 @@ STREAM_NAME = os.getenv('STREAM_NAME')
 
 RADIUS = 30000
 
-
 kinesis = boto3.client('kinesis',
                        region_name=AWS_REGION,
                        aws_access_key_id=AWS_ACCESS_KEY_ID,
@@ -26,20 +25,22 @@ kinesis = boto3.client('kinesis',
                        )
 
 fr_api = FlightRadar24API()
-bounds = fr_api.get_bounds_by_point(float(CENTER[0]),float(CENTER[1]), RADIUS)
+bounds = fr_api.get_bounds_by_point(float(CENTER[0]), float(CENTER[1]), RADIUS)
 for i in range(1, 1000):
     list = {}
     for f in fr_api.get_flights(bounds=bounds):
         list[f.registration] = {
-            "position": [f.latitude,f.longitude],
+            "position": [f.latitude, f.longitude],
             "code": f.aircraft_code,
             "origin": f.origin_airport_iata,
             "destination": f.destination_airport_iata,
             "number": f.number,
-            "flying": f.on_ground == 1,
+            "flying": (f.on_ground == 0),
             "airline": f.airline_iata,
-            "altitude": f.altitude
         }
+        if (f.registration == '9H-HLY'):
+            print(f)
+
     encoded_data = json.dumps(list).encode('utf-8')
 
     response = kinesis.put_record(
