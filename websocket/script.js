@@ -6,7 +6,7 @@ async function configure() {
 }
 
 function popupText(aircraft) {
-    return `<b>${aircraft.number} (${aircraft.airline})</b>&nbsp;${aircraft.origin}&rarr;${aircraft.destination}`
+    return `<b>${aircraft.number} (${aircraft.altitude})</b>&nbsp;${aircraft.origin}&rarr;${aircraft.destination}`
 }
 
 function WrapperWS(url) {

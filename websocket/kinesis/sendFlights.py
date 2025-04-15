@@ -37,6 +37,7 @@ for i in range(1, 1000):
             "number": f.number,
             "flying": (f.on_ground == 0),
             "airline": f.airline_iata,
+            "altitude": int(f.altitude * 0.3048)
         }
         if (f.registration == '9H-HLY'):
             print(f)
