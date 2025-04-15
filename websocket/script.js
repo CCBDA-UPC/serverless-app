@@ -63,8 +63,8 @@ function WrapperWS(url) {
                         if (layer.options.aircraftid in event.aircrafts) {
                             being_tracked.push(layer.options.aircraftid);
                             const aircraft = event.aircrafts[layer.options.aircraftid]
-                            if (layer.latitude != aircraft.latitude || layer.longitude != aircraft.longitude) {
-                                layer.setLatLng([aircraft.latitude, aircraft.longitude])
+                            if (layer.position != aircraft.position) {
+                                layer.setLatLng(aircraft.position)
                                 var icon;
                                 if (aircraft.flying) icon = flyingIcon;
                                 else icon = landedIcon;
@@ -74,10 +74,10 @@ function WrapperWS(url) {
                     });
                     for (const [id, aircraft] of Object.entries(event.aircrafts)) {
                         if (!being_tracked.includes(id)) {
-                            L.marker([aircraft.latitude, aircraft.longitude], {
+                            L.marker(aircraft.position, {
                                 alt: id,
                                 aircraftid: id,
-                                flyingIcon: flyingIcon
+                                flyingIcon: landedIcon
                             }).addTo(map).bindPopup(popupText(aircraft));
                             console.log(id, 'new', aircraft.flying);
                         }

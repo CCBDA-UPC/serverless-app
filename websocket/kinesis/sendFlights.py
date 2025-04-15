@@ -31,8 +31,7 @@ for i in range(1, 1000):
     list = {}
     for f in fr_api.get_flights(bounds=bounds):
         list[f.registration] = {
-            "latitude": f.latitude,
-            "longitude": f.longitude,
+            "position": [f.latitude,f.longitude],
             "code": f.aircraft_code,
             "origin": f.origin_airport_iata,
             "destination": f.destination_airport_iata,
