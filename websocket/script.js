@@ -67,7 +67,7 @@ function WrapperWS(url) {
                                 layer.setLatLng([aircraft.latitude, aircraft.longitude])
                                 var icon;
                                 if (aircraft.flying) icon = flyingIcon;
-                                else icon = flyingIcon;
+                                else icon = landedIcon;
                                 layer.setIcon(icon)
                             }
                         }
