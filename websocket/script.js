@@ -6,7 +6,7 @@ async function configure() {
 }
 
 function popupText(aircraft) {
-    return `<b>${aircraft.number} (${aircraft.altitude})</b>&nbsp;${aircraft.origin}&rarr;${aircraft.destination}`
+    return `<span style="align-content: center"><b>${aircraft.number}</b>&nbsp;${aircraft.origin}&rarr;${aircraft.destination}<br/>${aircraft.altitude}m</span>`
 }
 
 function WrapperWS(url) {
@@ -66,6 +66,7 @@ function WrapperWS(url) {
                             if (layer.position != aircraft.position) {
                                 layer.setLatLng(aircraft.position)
                                 layer.setIcon(aircraft.flying ? flyingIcon : landedIcon)
+                                layer.setPopupContent(popupText(aircraft))
                             }
                         }
                     });

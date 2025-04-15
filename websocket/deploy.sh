@@ -12,6 +12,17 @@ ENVIRONMENT=$(IFS=, ; echo "${ENVIRONMENT_VARIABLES[*]}")
 
 echo "ENVIRONMENT: ${ENVIRONMENT}"
 
+
+aws kinesis create-stream \
+    --stream-name ${STREAM_NAME} \
+    --shard-count 1
+
+STREAM_ARN=`aws kinesis describe-stream \
+    --stream-name ${STREAM_NAME} \
+    | jq -r '.StreamDescription.StreamARN'`
+
+echo "STREAM_ARN: ${STREAM_ARN}"
+
 pushd lambda/kinesis
 zip lambda_kinesis.zip lambda_kinesis.py library_functions.py requirements.txt
 LAMBDA_ARN=`aws lambda create-function \
@@ -24,6 +35,13 @@ LAMBDA_ARN=`aws lambda create-function \
   | jq -r '.FunctionArn'`
 
 echo "LAMBDA_ARN: ${LAMBDA_ARN}"
+
+aws lambda create-event-source-mapping \
+    --function-name ${LAMBDA_KINESIS} \
+    --event-source  ${STREAM_ARN} \
+    --batch-size 100 \
+    --starting-position LATEST
+
 popd
 
 
