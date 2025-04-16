@@ -5,7 +5,7 @@ set -e # exit on first error
 source $1
 
 ENVIRONMENT_VARIABLES=()
-for var in  REGION LOG_LEVEL; do
+for var in REGION LOG_LEVEL; do
   ENVIRONMENT_VARIABLES+=($var=${!var})
 done
 ENVIRONMENT=$(IFS=, ; echo "${ENVIRONMENT_VARIABLES[*]}")

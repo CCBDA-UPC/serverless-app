@@ -40,6 +40,3 @@ def lambda_handler(event, context):
         return library.handle_response(json.dumps('Init message sent.'))
     else:
         return library.handle_response(json.dumps('I cannot respond'), 400)
-
-
-
