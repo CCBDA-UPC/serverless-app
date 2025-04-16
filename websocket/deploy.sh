@@ -23,6 +23,16 @@ STREAM_ARN=`aws kinesis describe-stream \
 
 echo "STREAM_ARN: ${STREAM_ARN}"
 
+
+aws dynamodb create-table \
+  --table-name ${DYNAMO_TABLE} \
+  --attribute-definitions \
+        AttributeName=connectionid,AttributeType=S \
+  --key-schema \
+        AttributeName=connectionid,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --region ${REGION}
+
 pushd lambda/kinesis
 zip lambda_kinesis.zip lambda_kinesis.py library_functions.py requirements.txt
 LAMBDA_ARN=`aws lambda create-function \
@@ -102,7 +112,11 @@ STAGE="production"
 aws apigatewayv2 create-stage \
      --api-id ${API_ID} \
      --stage-name ${STAGE} \
-     --auto-deploy | cat
+     --no-auto-deploy
+
+aws apigatewayv2 create-deployment \
+    --api-id ${API_ID} \
+    --stage-name ${STAGE}
 
 URL="wss://${API_ID}.execute-api.${REGION}.amazonaws.com/${STAGE}/"
 

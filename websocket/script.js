@@ -56,6 +56,10 @@ function WrapperWS(url) {
                         maxZoom: 15
                     }).addTo(map);
                     break;
+                case 'reset':
+                    map.setView(event.center).fitBounds(event.bounds);
+                    L.rectangle(event.bounds, {color: "#ff7800", opacity: 0.3, weight: 1}).addTo(map);
+                    break;
                 case 'show':
                     if (map === undefined) return; // Ignore message. Can't show anything before the map is initialized
                     map.eachLayer((layer) => {
