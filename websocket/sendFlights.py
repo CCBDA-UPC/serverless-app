@@ -11,18 +11,18 @@ AWS_REGION = os.getenv('AWS_REGION')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_SESSION_TOKEN = os.getenv('AWS_SESSION_TOKEN')
+STREAM_NAME = os.getenv('STREAM_NAME')
+
 CENTER = os.getenv('CENTER').split(':')
 TOP_LEFT = os.getenv('TOP_LEFT').split(':')
 BOTTOM_RIGHT = os.getenv('BOTTOM_RIGHT').split(':')
-STREAM_NAME = os.getenv('STREAM_NAME')
-
 RADIUS = 3000
 
 kinesis = boto3.client('kinesis',
                        region_name=AWS_REGION,
                        aws_access_key_id=AWS_ACCESS_KEY_ID,
                        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-                       # aws_session_token=AWS_SESSION_TOKEN
+                       aws_session_token=AWS_SESSION_TOKEN
                        )
 
 fr_api = FlightRadar24API()

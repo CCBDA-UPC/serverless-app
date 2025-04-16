@@ -5,7 +5,7 @@ set -e # exit on first error
 source $1
 
 ENVIRONMENT_VARIABLES=()
-for var in API_KEY REGION CENTER TOP_LEFT BOTTOM_RIGHT DYNAMO_TABLE LOG_LEVEL STREAM_NAME; do
+for var in API_KEY REGION CENTER TOP_LEFT BOTTOM_RIGHT DYNAMO_TABLE LOG_LEVEL; do
   ENVIRONMENT_VARIABLES+=($var=${!var})
 done
 ENVIRONMENT=$(IFS=, ; echo "${ENVIRONMENT_VARIABLES[*]}")
@@ -69,11 +69,11 @@ for ROUTE in connect disconnect default; do
     --environment "Variables={${ENVIRONMENT}}" \
     | jq -r '.FunctionArn'`
 
-    echo "LAMBDA_ARN: ${}"
+    echo "LAMBDA_ARN: ${LAMBDA_ARN}"
 
     STATEMENT_ID=`uuidgen`
 
-    echo "STATEMENT_ID ${}"
+    echo "STATEMENT_ID ${STATEMENT_ID}"
 
     aws lambda add-permission \
       --function-name ${LAMBDA_WEBSOCKET}_${ROUTE} \
@@ -107,3 +107,5 @@ aws apigatewayv2 create-stage \
 URL="wss://${API_ID}.execute-api.${REGION}.amazonaws.com/${STAGE}/"
 
 echo "URL: ${URL}"
+
+echo -e "{\"url\":\"${URL}\"}" > variables.json; cat variables.json
