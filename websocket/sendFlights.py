@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from FlightRadar24 import FlightRadar24API
 import logging
 
-
 def reset():
     message = json.dumps({
         'type': 'reset',
