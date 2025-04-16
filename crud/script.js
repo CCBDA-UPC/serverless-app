@@ -1,8 +1,21 @@
+async function configure() {
+    const request = new Request("./variables.json");
+    const response = await fetch(request);
+    const variables = await response.json();
+    new WrapperWS(variables.url);
+}
+
 (function ($) {
+    var config;
+    $.getJSON("variables.json", function (data) {
+        config = data;
+    });
+
+
     $.ajax({
         type: 'GET',
-        url: apiUrl,
-        data: {'TableName': TableName},
+        url: config.url,
+        data: {'TableName': config.table},
         crossDomain: true,
         success: function (result) {
             $.each(result.Items, function (i, item) {
@@ -19,7 +32,7 @@
         event.preventDefault();
         thingID = $('#thingID').val();
         payload = {
-            'TableName': TableName,
+            'TableName': config.table,
             'Item': {
                 'thingID': {
                     'S': thingID
@@ -28,7 +41,7 @@
         }
         $.ajax({
             type: 'POST',
-            url: apiUrl,
+            url: config.url,
             crossDomain: true,
             contentType: 'application/json',
             data: JSON.stringify(payload),
