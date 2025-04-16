@@ -19,7 +19,6 @@ def lambda_handler(event, context):
         dynamodb.delete_item(TableName=DYNAMO_TABLE,
                              Key={
                                  'connectionid': {'S': connection_id},
-                                 'url': {'S': library.get_url(event, REGION)}
                              })
     except Exception as e:
         logger.error(f'Error disconnecting: "{connection_id}" {str(e)}')
